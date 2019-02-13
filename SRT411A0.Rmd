@@ -1,0 +1,181 @@
+---
+title: "Assignment 0, SRT411SAA, Prof. Lisa Li"
+author: "Rohan Saeed"
+date: '2019-02-05'
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+github account: rsaeed2@myseneca.ca
+---
+
+#Introduction
+
+In this assignment I will be completing the exercises in the book **A Short Introduction to R** and publishing the report and code to Github. The document has 14 "To do" sections which are completed and shown according to the book. This document includes both code and also the output of embedded R code. The document has also been uploaded to Github; **account name:** "rsaeed2@myseneca.ca".
+
+
+#To Do Sections and Results
+
+##3.1
+Percentage of life spent at Seneca College
+```{r}
+((2019-2017)/(2019-1995))*100
+```
+
+
+##3.2
+Percentage of life spent at Seneca College (using variables)
+```{r}
+cur_yr = 2019
+start_yr = 2017
+brn_yr = 1995
+((cur_yr-start_yr)/(cur_yr-brn_yr))*100
+```
+
+
+##3.4
+Calculate sum of a vector
+```{r}
+nums=c(4,5,8,11)
+sum(nums)
+```
+
+##3.5
+Plot random numbers
+```{r}
+nums=rnorm(100)
+plot(nums, main='Random Number Plot')
+```
+
+##4.1
+Find help for 'sqrt' function
+```{r}
+help(sqrt)
+```
+
+##5.1
+Make a file called 'firstscript.R' containing code that generates 100 random no.s and plots them.
+```{r}
+source("firstscript.R")
+```
+
+##6.2
+Put the numbers 31 to 60 in a vector named P and in a matrix with 6 rows and 5 columns named Q.
+```{r}
+Q=matrix(data=c(seq(31,60)),ncol=5,nrow=6)
+Q
+```
+
+##6.3 and 7.1
+Make a script file which constructs three random normal vectors of length 100. Call these vectors x1, x2 and x3. Make a data frame called t with three columns (called a, b and c) containing respectively x1, x1+x2 and x1+x2+x3. Call the following functions for this data frame: plot(t) and sd(t).
+```{r eval=FALSE}
+x1=rnorm(100)
+x2=rnorm(100)
+x3=rnorm(100)
+t=data.frame(a=c(x1),b=c(x1+x2),c=c(x1+x2+x3))
+plot(t, main="Plotting A, B and C.")
+sd(t$a)
+sd(t$b)
+sd(t$c)
+
+plot(t$a, type="l", ylim=range(t),lwd=3, col=rgb(1,0,0,0.3))
+lines(t$b, type="s", lwd=2, col=rgb(0.3,0.4,0.3,0.9))
+points(t$c, pch=20, cex=1, col=rgb(0,0,1,0.3))
+```
+```{r}
+source("secondscript_vectors.R")
+```
+
+sd(t$a)
+[1] 0.9333017
+
+sd(t$b)
+[1] 1.310654
+
+sd(t$c)
+[1] 1.720701
+
+RGB tells us what colour the graph should be (choose shade of Red, green and blue to combine). 
+
+lwd is line width. pch is which plotting character or symbol you want to use. cex is character or symbol expansion (how big you want your pch to be)
+
+##9.1
+Compute the mean of the square root of a vector of 100 random numbers.
+```{r}
+nums=rnorm(100)
+mean(sqrt(nums),na.rm=TRUE)
+```
+
+##10.1
+Make a graph with on the x-axis: today, Sinterklaas 2014 and your next birthday and on the y-axis the number of presents you expect on each of these days.
+```{r}
+dates=strptime(c("20190210", "20140515", "20201223"), format="%Y%m%d")
+presents = c(0,1,2)
+plot(dates,presents,type='p', ylim=range(presents),lwd=3, col=rgb(0.3,0.5,0.3,1), main="Plotting Presents Received on Different Days", xlab = 'Dates', ylab='Number of Presents')
+```
+
+
+##11.2
+Make a vector from 1 to 100. Make a for-loop which runs through the whole vector. Multiply the elements which are smaller than 5 and larger than 90 with 10 and the other elements with 0.1.
+```{r}
+nums=seq(1,100)
+for(num in nums)
+{
+if(num<5|num>90)
+{
+  nums[num] = num*10
+}else{
+  nums[num] = num*0.1
+}
+}
+nums
+```
+
+##11.3
+Write a function for the previous ToDo, so that you can feed it any vector you like(as argument). Use a for-loop in the function to do the computation with each element. Use the standard R function length in the specification of the counter.
+```{r}
+function1 = function(nums,low_num,high_num)
+{
+counter=length(nums)
+for(num in 1:counter)
+{
+if(nums[num]<low_num|nums[num]>high_num)
+{
+  nums[num] = nums[num]*10
+}else{
+  nums[num] = nums[num]*0.1
+}
+}
+nums
+}
+
+x=c(1,2,3,4,5,20,21,22,23,24,60,70,80,90,100)
+low_num=10
+high_num=50
+
+function1(x,low_num,high_num)
+```
+
+
+##Extra task
+Write code that will prove that footnote true
+```{r}
+function1 = function(nums,low_num,high_num)
+{
+counter=seq(1,length(nums))
+times_ten=counter[nums<low_num|nums>high_num]
+times_less=counter[nums>low_num&nums<high_num]
+nums2 = c(nums[times_ten]*10)
+nums2 = append(nums2,nums[times_less]*0.1)
+nums2
+}
+
+x=c(1,2,3,4,5,20,21,22,23,24,60,70,80,90,100)
+low_num=10
+high_num=50
+function1(x,low_num,high_num)
+```
+
+
+
+
